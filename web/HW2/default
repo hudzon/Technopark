@@ -5,8 +5,14 @@ proxy_cache_use_stale error timeout invalid_header http_502;
 proxy_cache_bypass $cookie_session;
 proxy_no_cache $cookie_session;
 
+upstream {
+        server proprog:8081;
+}
+
 server {
 	listen 80;
+        listen 443 ssl;
+
         server_name localhost;
         access_log  /home/sergey/tmp/nginx.log;
 
@@ -14,12 +20,12 @@ server {
 
 	location /uploads/ {
                 root /home/sergey/technopark/webtech/ask_gudz/;
-                expires 7d;
+                expires 1d;
         }
 
         location ~* ^.+.(jpeg|js|css|html)$ {
                 root /home/sergey/technopark/webtech/ask_gudz/static/;
-                expires 7d;
+                expires 1d;
         }
 
         location / {
